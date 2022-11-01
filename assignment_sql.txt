@@ -1,0 +1,68 @@
+create database MySqll;
+use mysqll;
+create table SalesPeople(
+snum int,
+sname varchar(100) unique,
+city varchar(100),
+comm int,
+primary key(snum)
+);
+insert into SalesPeople(snum,sname,city,comm) values(1001,'peel','london',12);
+insert into SalesPeople(snum,sname,city,comm) values(1002,'serres','sanjose',13);
+insert into SalesPeople(snum,sname,city,comm) values(1004,'motika','london',11);
+insert into SalesPeople(snum,sname,city,comm) values(1007,'Rifkin','Barcelona',15);
+insert into SalesPeople(snum,sname,city,comm) values(1003,'Axelrod','Newyork',10);
+select * from salesPeople;
+
+create table Customers(
+Cnum int primary key,
+Cname varchar(100),
+City varchar(100) Not Null,
+snum int,
+foreign key(Snum) references salesPeople(snum)
+);
+
+insert into Customers(cnum,cname,city,snum) values(2001,'Hoffman','London',1001);
+insert into Customers(cnum,cname,city,snum) values(2002,'Giovanni','Rome',1003);
+insert into Customers(cnum,cname,city,snum) values(2003,'Liu','Sanjos',1002);
+insert into Customers(cnum,cname,city,snum) values(2004,'Grass','Berlin',1002);
+insert into Customers(cnum,cname,city,snum) values(2006,'clemens','London',1001);
+insert into Customers(cnum,cname,city,snum) values(2008,'cisneros','Sanjos',1007);
+insert into Customers(cnum,cname,city,snum) values(2007,'pereira','Rome',1004);
+
+select * from Customers;
+
+create table Orders(
+onum int,
+Amt DECIMAL(30,2),
+Odate DATE,
+Cnum int,
+Snum int,
+foreign key(Cnum) references Customers(Cnum),
+foreign key(Snum) references salesPeople(snum)
+);
+insert into Orders(onum,Amt,Odate,Cnum,Snum) values(3001,18.69,'1990-10-03',2008,1007);
+insert into Orders(onum,Amt,Odate,Cnum,Snum) values(3003, 767.19 ,'1990-10-03', 2001 ,1001);
+insert into Orders(onum,Amt,Odate,Cnum,Snum) values(3002 ,1900.10,'1990-10-03',2007 ,1004);
+insert into Orders(onum,Amt,Odate,Cnum,Snum) values(3005 ,5160.45, '1990-10-03',2003, 1002);
+insert into Orders(onum,Amt,Odate,Cnum,Snum) values(3006,1098.16 ,'1990-10-03', 2008 ,1007);
+insert into Orders(onum,Amt,Odate,Cnum,Snum) values(3009 ,1713.23, '1990-10-04', 2002 ,1003);
+insert into Orders(onum,Amt,Odate,Cnum,Snum) values(3007 , 75.75, '1990-10-04',2004 ,1002);
+insert into Orders(onum,Amt,Odate,Cnum,Snum) values(3008 ,4273.00,'1990-10-05',2006, 1001);
+insert into Orders(onum,Amt,Odate,Cnum,Snum) values(3010 , 1309.95 ,'1990-10-06' ,2004 ,1002);
+insert into Orders(onum,Amt,Odate,Cnum,Snum) values(3011 ,9891.88,'1990-10-06' ,2006 ,1001);
+
+
+select * from Orders;
+
+select count(*) from SalesPeople where sname like'A%';
+select salespeople.sname as name,sum(orders.Amt) as worth from salespeople join orders on salespeople.snum=orders.snum group by orders.snum having sum(orders.Amt)>2000.00;
+select count(*) from SalesPeople where city='Newyork';
+select count(*) from SalesPeople where city='Newyork' and city='Paris';
+select salespeople.sname as name,orders.odate as date,count(*) from salespeople join orders on salespeople.snum=orders.snum group by orders.snum;
+
+
+
+
+
+
